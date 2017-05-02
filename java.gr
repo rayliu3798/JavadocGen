@@ -1,0 +1,79 @@
+java
+
+Start
+
+strt
+
+Syntactic
+
+Strt : strt -> ows package ows imports class ows.
+
+Package : package -> 'package' space word ';'.
+PackageNil : package -> .
+
+ImportNil : imports -> .
+ImportCons : imports -> ows imp imports.
+
+Imp : imp -> 'import' space sentence ';'.
+
+Class : class -> comment abstra ows encap ows status ows 'class' space className ows '{' ows construct ows methods ows '}' .
+
+Constructor : construct -> comment encap ows className ows '(' ows parameter ows ')' ows '{' ows '}' .
+ConstructNil : construct ->.
+
+Method : method -> comment abstra ows encap ows type ows methodName ows '(' ows parameter ows ')' ows '{' ows '}' .
+
+Methods : methods -> ows method methods.
+MethodNil : methods -> .
+
+Public : encap -> 'public'.
+Protected : encap -> 'protected'.
+Private : encap -> 'private'.
+NoEncap : encap -> .
+
+Abstract : abstra -> 'abstract'.
+NoAbstract : abstra ->.
+
+Static : status -> 'static'.
+Final : status -> 'final'.
+NoStatus : status -> .
+
+VoidType : type -> 'void'.
+ReturnType : type -> word.
+
+ClassName : className -> word.
+MethodName : methodName -> word.
+
+Parameter : parameter -> type ows word.
+NoParameter : parameter -> .
+
+Comment : comment -> ows '/**' detail ows descriptions ows '*/' ows.
+
+DescrSingl : description -> ows '*' space sentence.
+DescrMulti : descriptions ->  ows description descriptions.
+DescriNil : descriptions ->.
+Emptycom : description -> ows '*' ows.
+Author : description -> ows '*' space ows '@author' space sentence.
+Param : description -> ows '*' space ows '@param' space type detail.
+Return : description -> ows  '*' space ows '@return' space type detail.
+See : description -> ows  '*' space ows '@see' space type.
+Version : description -> ows  '*' space ows '@version' space sentence.
+
+Detail : detail -> space sentence.
+DetailNil : detail ->.
+
+Lexical
+
+word -> ['a'-'z' 'A'-'Z'] + .
+num -> ['0'-'9'] + .
+sep -> ( ',' | '.' | '?' | '!' ).
+phrase -> (word | num | sep)+.
+sentence -> phrase sp sentence.
+sentence -> phrase.
+sp -> space.
+
+% whitespace
+aws => (space | '\t' | '\n').
+ws => aws+.
+ows => aws*.
+
